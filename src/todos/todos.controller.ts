@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { TodosService } from './todos.service';
-import { CreateTodoDto } from './dto/todos.dto';
+import { CreateTodoDto, ToggleTodoStatusDto } from './dto/todos.dto';
 
 @Controller('todos')
 export class TodosController {
@@ -14,6 +14,18 @@ export class TodosController {
   @Post()
   async addTodo(@Body() data: CreateTodoDto) {
     return await this.todosService.createOne(data.content);
+  }
+
+  @Post(':id')
+  async toggleStatus(
+    @Param() params: { id: string },
+    @Body() data: ToggleTodoStatusDto,
+  ) {
+    return await this.todosService.updateOne(
+      params.id,
+      undefined,
+      data.completed,
+    );
   }
 
   @Delete(':id')

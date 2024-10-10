@@ -13,6 +13,13 @@ export class TodosService {
     return await db.todo.create({ data: { content, completed: false } });
   }
 
+  async updateOne(id: string, content?: string, completed?: boolean) {
+    return await db.todo.update({
+      where: { id },
+      data: { completed, content },
+    });
+  }
+
   async deleteOne(id: string): Promise<Todo> {
     return await db.todo.delete({ where: { id } });
   }
